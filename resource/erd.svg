@@ -1,0 +1,176 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1860" height="1100" viewBox="0 0 1860 1100">
+  <style>
+    .title { font: 700 26px Arial, sans-serif; fill: #0f172a; }
+    .subtitle { font: 14px Arial, sans-serif; fill: #475569; }
+    .box { fill: #f8fafc; stroke: #334155; stroke-width: 2; rx: 10; ry: 10; }
+    .header-blue { fill: #dbeafe; stroke: #334155; stroke-width: 2; }
+    .header-green { fill: #dcfce7; stroke: #334155; stroke-width: 2; }
+    .header-amber { fill: #fef3c7; stroke: #334155; stroke-width: 2; }
+    .name { font: 700 18px Arial, sans-serif; fill: #0f172a; }
+    .text { font: 13px monospace; fill: #1e293b; }
+    .line { stroke: #475569; stroke-width: 2; fill: none; }
+    .dashed { stroke: #64748b; stroke-width: 2; fill: none; stroke-dasharray: 7 5; }
+    .label { font: 13px Arial, sans-serif; fill: #334155; }
+  </style>
+
+  <text x="40" y="42" class="title">Free Point System ERD</text>
+  <text x="40" y="66" class="subtitle">Idempotency request ledger + point grant/use/cancel ledger</text>
+
+  <g transform="translate(40,110)">
+    <rect class="box" width="270" height="165"/>
+    <rect class="header-blue" width="270" height="40"/>
+    <text x="16" y="26" class="name">point_account</text>
+    <text x="16" y="64" class="text">PK id</text>
+    <text x="16" y="84" class="text">UK user_id</text>
+    <text x="16" y="104" class="text">balance</text>
+    <text x="16" y="124" class="text">version</text>
+    <text x="16" y="144" class="text">created_at / updated_at</text>
+  </g>
+
+  <g transform="translate(40,330)">
+    <rect class="box" width="270" height="185"/>
+    <rect class="header-amber" width="270" height="40"/>
+    <text x="16" y="26" class="name">point_policy</text>
+    <text x="16" y="64" class="text">PK id</text>
+    <text x="16" y="84" class="text">UK policy_code</text>
+    <text x="16" y="104" class="text">policy_value</text>
+    <text x="16" y="124" class="text">value_type</text>
+    <text x="16" y="144" class="text">active</text>
+    <text x="16" y="164" class="text">created_at / updated_at</text>
+  </g>
+
+  <g transform="translate(360,90)">
+    <rect class="box" width="360" height="265"/>
+    <rect class="header-green" width="360" height="40"/>
+    <text x="16" y="26" class="name">point_transaction_request</text>
+    <text x="16" y="64" class="text">PK id</text>
+    <text x="16" y="84" class="text">FK account_id</text>
+    <text x="16" y="104" class="text">transaction_type</text>
+    <text x="16" y="124" class="text">transaction_no</text>
+    <text x="16" y="144" class="text">request_hash</text>
+    <text x="16" y="164" class="text">request_amount / request_order_no</text>
+    <text x="16" y="184" class="text">target_point_key</text>
+    <text x="16" y="204" class="text">status / result_point_key</text>
+    <text x="16" y="224" class="text">response_snapshot</text>
+    <text x="16" y="244" class="text">created_at / updated_at</text>
+  </g>
+
+  <g transform="translate(780,80)">
+    <rect class="box" width="340" height="285"/>
+    <rect class="header-blue" width="340" height="40"/>
+    <text x="16" y="26" class="name">point_grant</text>
+    <text x="16" y="64" class="text">PK id</text>
+    <text x="16" y="84" class="text">UK point_key</text>
+    <text x="16" y="104" class="text">UK FK transaction_request_id</text>
+    <text x="16" y="124" class="text">FK account_id</text>
+    <text x="16" y="144" class="text">grant_type / source_ref</text>
+    <text x="16" y="164" class="text">granted_amount</text>
+    <text x="16" y="184" class="text">remaining_amount</text>
+    <text x="16" y="204" class="text">expires_at</text>
+    <text x="16" y="224" class="text">status</text>
+    <text x="16" y="244" class="text">FK original_use_cancel_id</text>
+    <text x="16" y="264" class="text">created_at / updated_at</text>
+  </g>
+
+  <g transform="translate(1180,100)">
+    <rect class="box" width="320" height="180"/>
+    <rect class="header-blue" width="320" height="40"/>
+    <text x="16" y="26" class="name">point_grant_cancel</text>
+    <text x="16" y="64" class="text">PK id</text>
+    <text x="16" y="84" class="text">UK point_key</text>
+    <text x="16" y="104" class="text">UK FK transaction_request_id</text>
+    <text x="16" y="124" class="text">FK grant_id</text>
+    <text x="16" y="144" class="text">canceled_amount / reason</text>
+  </g>
+
+  <g transform="translate(780,430)">
+    <rect class="box" width="340" height="230"/>
+    <rect class="header-blue" width="340" height="40"/>
+    <text x="16" y="26" class="name">point_use</text>
+    <text x="16" y="64" class="text">PK id</text>
+    <text x="16" y="84" class="text">UK point_key</text>
+    <text x="16" y="104" class="text">UK FK transaction_request_id</text>
+    <text x="16" y="124" class="text">FK account_id</text>
+    <text x="16" y="144" class="text">order_no</text>
+    <text x="16" y="164" class="text">used_amount</text>
+    <text x="16" y="184" class="text">cancelable_amount</text>
+    <text x="16" y="204" class="text">status</text>
+  </g>
+
+  <g transform="translate(1180,410)">
+    <rect class="box" width="330" height="205"/>
+    <rect class="header-blue" width="330" height="40"/>
+    <text x="16" y="26" class="name">point_use_allocation</text>
+    <text x="16" y="64" class="text">PK id</text>
+    <text x="16" y="84" class="text">FK use_id</text>
+    <text x="16" y="104" class="text">FK grant_id</text>
+    <text x="16" y="124" class="text">allocated_amount</text>
+    <text x="16" y="144" class="text">canceled_amount</text>
+    <text x="16" y="164" class="text">created_at / updated_at</text>
+  </g>
+
+  <g transform="translate(1560,420)">
+    <rect class="box" width="260" height="180"/>
+    <rect class="header-blue" width="260" height="40"/>
+    <text x="16" y="26" class="name">point_use_cancel</text>
+    <text x="16" y="64" class="text">PK id</text>
+    <text x="16" y="84" class="text">UK point_key</text>
+    <text x="16" y="104" class="text">UK FK transaction_request_id</text>
+    <text x="16" y="124" class="text">FK use_id</text>
+    <text x="16" y="144" class="text">canceled_amount / reason</text>
+  </g>
+
+  <g transform="translate(1410,720)">
+    <rect class="box" width="380" height="185"/>
+    <rect class="header-blue" width="380" height="40"/>
+    <text x="16" y="26" class="name">point_use_cancel_allocation</text>
+    <text x="16" y="64" class="text">PK id</text>
+    <text x="16" y="84" class="text">FK use_cancel_id</text>
+    <text x="16" y="104" class="text">FK use_allocation_id</text>
+    <text x="16" y="124" class="text">canceled_amount</text>
+    <text x="16" y="144" class="text">restore_type</text>
+    <text x="16" y="164" class="text">FK restored_grant_id</text>
+  </g>
+
+  <path class="line" d="M310 190 L360 190"/>
+  <text x="324" y="180" class="label">1:N</text>
+
+  <path class="line" d="M310 190 C540 190, 620 190, 780 190"/>
+  <text x="630" y="178" class="label">1:N</text>
+
+  <path class="line" d="M310 210 C560 310, 610 520, 780 540"/>
+  <text x="520" y="362" class="label">1:N</text>
+
+  <path class="line" d="M720 190 L780 190"/>
+  <text x="736" y="178" class="label">1:N grant</text>
+
+  <path class="line" d="M720 220 C910 220, 1000 180, 1180 180"/>
+  <text x="950" y="168" class="label">1:0..1 grant_cancel</text>
+
+  <path class="line" d="M720 250 C920 330, 980 520, 780 540"/>
+  <text x="930" y="370" class="label">1:0..1 use</text>
+
+  <path class="line" d="M720 280 C1000 420, 1300 470, 1560 510"/>
+  <text x="1110" y="438" class="label">1:0..1 use_cancel</text>
+
+  <path class="line" d="M1120 190 L1180 190"/>
+  <text x="1132" y="178" class="label">1:0..1</text>
+
+  <path class="line" d="M1120 540 L1180 510"/>
+  <text x="1134" y="512" class="label">1:N</text>
+
+  <path class="line" d="M950 365 L950 430"/>
+  <text x="960" y="402" class="label">same account</text>
+
+  <path class="line" d="M1260 615 L1260 720 L1410 720"/>
+  <text x="1280" y="704" class="label">allocation cancel</text>
+
+  <path class="line" d="M1690 600 L1690 720"/>
+  <text x="1700" y="668" class="label">1:N</text>
+
+  <path class="line" d="M1120 265 C1320 290, 1500 320, 1600 420"/>
+  <text x="1330" y="302" class="label">expired cancel =&gt; regrant</text>
+
+  <path class="dashed" d="M1595 720 C1510 620, 1360 520, 1120 220"/>
+  <text x="1450" y="610" class="label">restored_grant_id</text>
+</svg>

@@ -1,0 +1,118 @@
+erDiagram
+    POINT_ACCOUNT ||--o{ POINT_TRANSACTION_REQUEST : receives
+    POINT_ACCOUNT ||--o{ POINT_GRANT : has
+    POINT_ACCOUNT ||--o{ POINT_USE : has
+    POINT_TRANSACTION_REQUEST ||--o{ POINT_GRANT : creates
+    POINT_TRANSACTION_REQUEST ||--o| POINT_GRANT_CANCEL : creates
+    POINT_TRANSACTION_REQUEST ||--o| POINT_USE : creates
+    POINT_TRANSACTION_REQUEST ||--o| POINT_USE_CANCEL : creates
+    POINT_GRANT ||--o| POINT_GRANT_CANCEL : canceled_by
+    POINT_USE ||--o{ POINT_USE_ALLOCATION : allocated_to
+    POINT_GRANT ||--o{ POINT_USE_ALLOCATION : consumed_from
+    POINT_USE ||--o{ POINT_USE_CANCEL : canceled_by
+    POINT_USE_CANCEL ||--o{ POINT_USE_CANCEL_ALLOCATION : restores
+    POINT_USE_ALLOCATION ||--o{ POINT_USE_CANCEL_ALLOCATION : canceled_from
+    POINT_GRANT ||--o{ POINT_USE_CANCEL_ALLOCATION : regranted_as
+
+    POINT_ACCOUNT {
+        BIGINT id PK
+        VARCHAR user_id UK
+        BIGINT balance
+        BIGINT version
+        TIMESTAMP created_at
+        TIMESTAMP updated_at
+    }
+
+    POINT_TRANSACTION_REQUEST {
+        BIGINT id PK
+        BIGINT account_id FK
+        VARCHAR transaction_type
+        VARCHAR transaction_no
+        VARCHAR request_hash
+        BIGINT request_amount
+        VARCHAR request_order_no
+        VARCHAR target_point_key
+        VARCHAR status
+        VARCHAR result_point_key
+        TIMESTAMP created_at
+        TIMESTAMP updated_at
+    }
+
+    POINT_POLICY {
+        BIGINT id PK
+        VARCHAR policy_code UK
+        VARCHAR policy_value
+        VARCHAR value_type
+        BOOLEAN active
+        TIMESTAMP created_at
+        TIMESTAMP updated_at
+    }
+
+    POINT_GRANT {
+        BIGINT id PK
+        VARCHAR point_key UK
+        BIGINT transaction_request_id FK
+        BIGINT account_id FK
+        VARCHAR grant_type
+        VARCHAR source_ref
+        BIGINT granted_amount
+        BIGINT remaining_amount
+        TIMESTAMP expires_at
+        VARCHAR status
+        BIGINT original_use_cancel_id
+        TIMESTAMP created_at
+        TIMESTAMP updated_at
+    }
+
+    POINT_GRANT_CANCEL {
+        BIGINT id PK
+        VARCHAR point_key UK
+        BIGINT transaction_request_id FK
+        BIGINT grant_id FK
+        BIGINT canceled_amount
+        VARCHAR reason
+        TIMESTAMP created_at
+    }
+
+    POINT_USE {
+        BIGINT id PK
+        VARCHAR point_key UK
+        BIGINT transaction_request_id FK
+        BIGINT account_id FK
+        VARCHAR order_no
+        BIGINT used_amount
+        BIGINT cancelable_amount
+        VARCHAR status
+        TIMESTAMP created_at
+        TIMESTAMP updated_at
+    }
+
+    POINT_USE_ALLOCATION {
+        BIGINT id PK
+        BIGINT use_id FK
+        BIGINT grant_id FK
+        BIGINT allocated_amount
+        BIGINT canceled_amount
+        TIMESTAMP created_at
+        TIMESTAMP updated_at
+    }
+
+    POINT_USE_CANCEL {
+        BIGINT id PK
+        VARCHAR point_key UK
+        BIGINT transaction_request_id FK
+        BIGINT use_id FK
+        BIGINT canceled_amount
+        VARCHAR reason
+        TIMESTAMP created_at
+    }
+
+    POINT_USE_CANCEL_ALLOCATION {
+        BIGINT id PK
+        BIGINT use_cancel_id FK
+        BIGINT use_allocation_id FK
+        BIGINT canceled_amount
+        VARCHAR restore_type
+        BIGINT restored_grant_id FK
+        TIMESTAMP created_at
+    }
