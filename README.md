@@ -204,10 +204,28 @@ gradle bootRun
 
 테스트 파일: [PointCommandControllerTest.java](/Users/gwon-ogeun/mssp/src/test/java/com/assignment/freepoints/point/api/PointCommandControllerTest.java)
 
+### 멱등성/원장
+
 - 동일 적립 요청 재호출 시 멱등 응답 반환
 - 같은 `transactionNo`에 다른 payload 요청 시 `409 Conflict`
 - 만료된 적립분을 사용한 뒤 부분 사용취소하면 신규 적립으로 복구
 - 잔액 조회와 원장 조회 결과 확인
+
+### 사용 우선순위
+
+- 사용 시 수기 지급분 우선 → 만료 빠른 순으로 적립분이 소진됨
+
+### 예외 처리
+
+- 잔액 부족 시 `INSUFFICIENT_BALANCE`
+- 계정이 없는 사용 요청 시 `ACCOUNT_NOT_FOUND` (404)
+- 개인 최대 보유 한도 초과 적립 시 `BALANCE_LIMIT_EXCEEDED`
+- 적립취소 정상 처리 후 동일 적립건 재취소 시 `GRANT_ALREADY_CANCELED`
+- 이미 사용 이력이 있는 적립건 취소 시 `GRANT_ALREADY_USED`
+- 다른 회원의 포인트 취소 시 `POINT_OWNER_MISMATCH`
+- 취소 가능 금액을 초과한 사용취소 시 `INVALID_CANCEL_AMOUNT`
+- 존재하지 않는 포인트 키 사용취소 시 `POINT_NOT_FOUND` (404)
+- 빈 값/0 금액/길이 초과 등 잘못된 요청 시 `INVALID_REQUEST`
 
 ## 프로젝트 구조
 
