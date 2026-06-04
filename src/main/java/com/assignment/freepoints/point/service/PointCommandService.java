@@ -206,6 +206,14 @@ public class PointCommandService {
                 request.orderNo(),
                 null,
                 () -> {
+                    long minUsePerTx = pointPolicyReader.getLong(PointPolicyReader.MIN_USE_PER_TX);
+                    long maxUsePerTx = pointPolicyReader.getLong(PointPolicyReader.MAX_USE_PER_TX);
+                    if (request.amount() < minUsePerTx) {
+                        throw new BusinessException("USE_AMOUNT_BELOW_MINIMUM", HttpStatus.BAD_REQUEST, "1회 최소 사용 한도보다 작습니다.");
+                    }
+                    if (request.amount() > maxUsePerTx) {
+                        throw new BusinessException("USE_LIMIT_EXCEEDED", HttpStatus.BAD_REQUEST, "1회 최대 사용 한도를 초과했습니다.");
+                    }
                     if (account.getBalance() < request.amount()) {
                         throw new BusinessException("INSUFFICIENT_BALANCE", HttpStatus.BAD_REQUEST, "포인트 잔액이 부족합니다.");
                     }

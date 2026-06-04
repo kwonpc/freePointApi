@@ -187,6 +187,8 @@ MERGE INTO point_policy (policy_code, policy_value, value_type, description, act
 KEY (policy_code)
 VALUES
     ('MAX_GRANT_PER_TX', '100000', 'NUMBER', '1회 최대 적립 가능 포인트', TRUE),
+    ('MIN_USE_PER_TX', '1', 'NUMBER', '1회 최소 사용 가능 포인트', TRUE),
+    ('MAX_USE_PER_TX', '100000', 'NUMBER', '1회 최대 사용 가능 포인트', TRUE),
     ('MAX_BALANCE_PER_USER', '1000000', 'NUMBER', '개인 최대 보유 가능 포인트', TRUE),
     ('DEFAULT_EXPIRY_DAYS', '365', 'DAYS', '기본 만료일', TRUE),
     ('MIN_EXPIRY_DAYS', '1', 'DAYS', '최소 만료일', TRUE),

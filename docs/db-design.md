@@ -75,6 +75,8 @@
 권장 정책 코드:
 
 - `MAX_GRANT_PER_TX`: 1회 최대 적립 가능 포인트
+- `MIN_USE_PER_TX`: 1회 최소 사용 가능 포인트
+- `MAX_USE_PER_TX`: 1회 최대 사용 가능 포인트
 - `MAX_BALANCE_PER_USER`: 개인 최대 보유 가능 포인트
 - `DEFAULT_EXPIRY_DAYS`: 기본 만료일
 - `MIN_EXPIRY_DAYS`: 최소 만료일
@@ -279,6 +281,7 @@ API 멱등성 제어용 요청 원장입니다.
 
 - 요청 시작 시 `point_transaction_request(USE, transaction_no)` 를 먼저 확보한다.
 - 주문번호는 필수
+- 정책 테이블에서 `MIN_USE_PER_TX`, `MAX_USE_PER_TX` 를 조회해 1회 사용 한도를 검증한다.
 - 수기지급 포인트 우선, 이후 만료일 빠른 순으로 차감
 - 차감 내역은 `point_use_allocation` 에 분해 저장
 
@@ -364,4 +367,3 @@ API 멱등성 제어용 요청 원장입니다.
 - 잔액 컬럼은 정합성 검증 배치 또는 테스트 케이스로 지속 확인해야 합니다.
 - 만료 배치는 `point_grant.remaining_amount > 0` 인 행만 대상으로 처리하면 됩니다.
 - H2를 쓰더라도 금액은 `BIGINT` 로 두는 편이 단순합니다.
-

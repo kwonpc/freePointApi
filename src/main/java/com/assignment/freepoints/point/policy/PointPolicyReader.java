@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 public class PointPolicyReader {
 
     public static final String MAX_GRANT_PER_TX = "MAX_GRANT_PER_TX";
+    public static final String MIN_USE_PER_TX = "MIN_USE_PER_TX";
+    public static final String MAX_USE_PER_TX = "MAX_USE_PER_TX";
     public static final String MAX_BALANCE_PER_USER = "MAX_BALANCE_PER_USER";
     public static final String DEFAULT_EXPIRY_DAYS = "DEFAULT_EXPIRY_DAYS";
     public static final String MIN_EXPIRY_DAYS = "MIN_EXPIRY_DAYS";

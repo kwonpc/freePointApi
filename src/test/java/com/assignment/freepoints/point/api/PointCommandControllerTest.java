@@ -167,6 +167,31 @@ class PointCommandControllerTest {
     }
 
     @Test
+    void use_fails_when_use_limit_exceeded() throws Exception {
+        call("/api/points/grants", new PointGrantRequest("user-use-limit", "grant-use-limit-1", 100000, false, null, 365));
+        call("/api/points/grants", new PointGrantRequest("user-use-limit", "grant-use-limit-2", 100000, false, null, 365));
+
+        postExpectingError(
+                "/api/points/uses",
+                new PointUseRequest("user-use-limit", "use-limit", "ORDER-L", 100001),
+                HttpStatus.BAD_REQUEST,
+                "USE_LIMIT_EXCEEDED"
+        );
+    }
+
+    @Test
+    void use_fails_when_use_amount_is_below_minimum() throws Exception {
+        call("/api/points/grants", new PointGrantRequest("user-use-min", "grant-use-min", 1000, false, null, 365));
+
+        postExpectingError(
+                "/api/points/uses",
+                new PointUseRequest("user-use-min", "use-min", "ORDER-MIN", 0),
+                HttpStatus.BAD_REQUEST,
+                "USE_AMOUNT_BELOW_MINIMUM"
+        );
+    }
+
+    @Test
     void use_for_unknown_account_returns_account_not_found() throws Exception {
         postExpectingError(
                 "/api/points/uses",
